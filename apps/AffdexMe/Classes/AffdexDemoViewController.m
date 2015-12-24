@@ -76,6 +76,18 @@
 
 - (void)processedImageReady:(AFDXDetector *)detector image:(UIImage *)image faces:(NSDictionary *)faces atTime:(NSTimeInterval)time;
 {
+    //SE-Change: Do something with this value
+    for (AFDXFace *face in [faces allValues])
+    {
+        if (face.smileScore >= 10) {
+            printf("%s", "smile");
+        }
+        if (face.surpriseScore >= 10) {
+            printf("%s", "surprise");
+        }
+    }
+    //SE-Change: Do something with this value
+        
     NSDate *now = [NSDate date];
     
     if (nil != self.dateOfLastProcessedFrame)
@@ -736,9 +748,15 @@
     self.detector.licensePath = [[NSBundle mainBundle] pathForResource:@"sdk" ofType:@"license"];
     
     // tell the detector which facial expressions we want to measure
-    [self.detector setDetectAllEmotions:NO];
-    [self.detector setDetectAllExpressions:NO];
+//    [self.detector setDetectAllEmotions:NO];
+//    [self.detector setDetectAllExpressions:NO];
     
+    //SE-Change:
+    //If you want to turn on all emotions and expressions, you can use the following convenience methods:
+    [self.detector setDetectAllEmotions:YES];
+    [self.detector setDetectAllExpressions:YES];
+    //SE-Change:
+
     for (NSString *s in self.selectedClassifiers)
     {
         for (NSDictionary *d in self.availableClassifiers)
